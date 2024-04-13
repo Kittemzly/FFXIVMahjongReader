@@ -10,6 +10,7 @@ BUGS:
 - [ ] concealed Kan do not count as observed tiles
 
 TODO:
+- [ ] Highlight discarded tiles when hovering over ones in your hand (Mahjong Soul UX)
 - [ ] Show available/disqualified yaku
 - [ ] Actually make a struct for all the Emj addon junk (🙂)
 - [ ] Save game logs after confirming ability to order plays
