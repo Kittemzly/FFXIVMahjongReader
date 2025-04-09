@@ -1,3 +1,9 @@
+
+Repo: `https://kittemzly.github.io/EmzRepo/repo.json`
+
+
+
+
 # MahjongReader
 
 Shows observed tiles so you don't have to manually count in long games.
