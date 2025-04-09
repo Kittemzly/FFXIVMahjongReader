@@ -1,0 +1,13 @@
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\bin\Debug\MahjongReader.deps.json
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\bin\Debug\MahjongReader.dll
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\bin\Debug\GameModel.dll
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\bin\Debug\GameModel.pdb
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\obj\Debug\MahjongReader.csproj.AssemblyReference.cache
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\obj\Debug\MahjongReader.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\obj\Debug\MahjongReader.AssemblyInfoInputs.cache
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\obj\Debug\MahjongReader.AssemblyInfo.cs
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\obj\Debug\MahjongReader.csproj.CoreCompileInputs.cache
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\obj\Debug\MahjongReader.sourcelink.json
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\obj\Debug\MahjongR.BA53EC89.Up2Date
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\obj\Debug\MahjongReader.dll
+C:\Users\caspa\Documents\MahjongReader\FFXIVMahjongReader\src\MahjongReader\bin\Debug\manifest.json

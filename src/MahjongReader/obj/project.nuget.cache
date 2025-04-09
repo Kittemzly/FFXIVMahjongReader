@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "+XcKq8A7V7U=",
+  "success": true,
+  "projectFilePath": "D:\\Mahjong\\src\\MahjongReader\\MahjongReader.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\caspa\\.nuget\\packages\\dalamudpackager\\12.0.0\\dalamudpackager.12.0.0.nupkg.sha512",
+    "C:\\Users\\caspa\\.nuget\\packages\\dotnet.reproduciblebuilds\\1.2.25\\dotnet.reproduciblebuilds.1.2.25.nupkg.sha512"
+  ],
+  "logs": []
+}

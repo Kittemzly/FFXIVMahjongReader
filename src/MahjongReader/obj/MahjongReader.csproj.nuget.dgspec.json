@@ -1,0 +1,148 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Mahjong\\src\\MahjongReader\\MahjongReader.csproj": {}
+  },
+  "projects": {
+    "D:\\Mahjong\\src\\GameModel\\GameModel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Mahjong\\src\\GameModel\\GameModel.csproj",
+        "projectName": "GameModel",
+        "projectPath": "D:\\Mahjong\\src\\GameModel\\GameModel.csproj",
+        "packagesPath": "C:\\Users\\caspa\\.nuget\\packages\\",
+        "outputPath": "D:\\Mahjong\\src\\GameModel\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "D:\\Mahjong\\NuGet.Config",
+          "C:\\Users\\caspa\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0-windows"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://goatcorp.github.io/DalamudAssets/latest": {}
+        },
+        "frameworks": {
+          "net9.0-windows7.0": {
+            "targetAlias": "net9.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net9.0-windows7.0": {
+          "targetAlias": "net9.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Mahjong\\src\\MahjongReader\\MahjongReader.csproj": {
+      "version": "0.0.0.1",
+      "restore": {
+        "projectUniqueName": "D:\\Mahjong\\src\\MahjongReader\\MahjongReader.csproj",
+        "projectName": "MahjongReader",
+        "projectPath": "D:\\Mahjong\\src\\MahjongReader\\MahjongReader.csproj",
+        "packagesPath": "C:\\Users\\caspa\\.nuget\\packages\\",
+        "outputPath": "D:\\Mahjong\\src\\MahjongReader\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "D:\\Mahjong\\NuGet.Config",
+          "C:\\Users\\caspa\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0-windows"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://goatcorp.github.io/DalamudAssets/latest": {}
+        },
+        "frameworks": {
+          "net9.0-windows7.0": {
+            "targetAlias": "net9.0-windows",
+            "projectReferences": {
+              "D:\\Mahjong\\src\\GameModel\\GameModel.csproj": {
+                "projectPath": "D:\\Mahjong\\src\\GameModel\\GameModel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreLockProperties": {
+          "restorePackagesWithLockFile": "true"
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net9.0-windows7.0": {
+          "targetAlias": "net9.0-windows",
+          "dependencies": {
+            "DalamudPackager": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "DotNet.ReproducibleBuilds": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.2.25, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
