@@ -1,5 +1,6 @@
 ﻿using Dalamud.Configuration;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using System;
 
 namespace MahjongReader
@@ -13,16 +14,16 @@ namespace MahjongReader
 
         // the below exist just to make saving less cumbersome
         [NonSerialized]
-        private DalamudPluginInterface? PluginInterface;
+        private IDalamudPluginInterface? PluginInterface;
 
-        public void Initialize(DalamudPluginInterface pluginInterface)
+        public void Initialize(IDalamudPluginInterface pluginInterface)
         {
             this.PluginInterface = pluginInterface;
         }
 
         public void Save()
         {
-            this.PluginInterface!.SavePluginConfig(this);
+            this.PluginInterface?.SavePluginConfig(this);
         }
     }
 }

@@ -118,7 +118,7 @@ namespace MahjongReader
 
             // characters/man
             for (int i = 1; i < 10; i++) {
-                int nextTextureId = i + 76040; //41 is the actual character/man start
+                int nextTextureId = i + 76040; //40 is the actual character/man start
                 string fullTextureId = "0" + nextTextureId.ToString();
                 string notation = i.ToString() + Suit.MAN;
                 textureIdToTileTexture.Add(fullTextureId, new TileTexture(fullTextureId, notation));
@@ -128,7 +128,7 @@ namespace MahjongReader
 
             // dots/pin
             for (int i = 1; i < 10; i++) {
-                int nextTextureId = i + 076049; //50 is the actual dots/pin start
+                int nextTextureId = i + 76049; //49 is the actual dots/pin start
                 string fullTextureId = "0" + nextTextureId.ToString();
                 string notation = i.ToString() + Suit.PIN;
                 textureIdToTileTexture.Add(fullTextureId, new TileTexture(fullTextureId, notation));
@@ -138,7 +138,7 @@ namespace MahjongReader
 
             // bamboo/sou
             for (int i = 1; i < 10; i++) {
-                int nextTextureId = i + 076058; //59 is the actual bamboo/sou start
+                int nextTextureId = i + 76058; //58 is the actual bamboo/sou start
                 string fullTextureId = "0" + nextTextureId.ToString();
                 string notation = i.ToString() + Suit.SOU;
                 textureIdToTileTexture.Add(fullTextureId, new TileTexture(fullTextureId, notation));
@@ -148,7 +148,7 @@ namespace MahjongReader
 
             // honor tiles / wind first / dragons
             for (int i = 1; i < 8; i++) {
-                int nextTextureId = i + 076067; //68 is the actual honor tile start
+                int nextTextureId = i + 76067; //67 is the actual honor tile start
                 string fullTextureId = "0" + nextTextureId.ToString();
                 string notation = i.ToString() + Suit.HONOR;
                 textureIdToTileTexture.Add(fullTextureId, new TileTexture(fullTextureId, notation));
@@ -180,14 +180,20 @@ namespace MahjongReader
         }
 
         // TODO: support traditonal (IRL Mahjong tile face) textures? Same pattern, different texture id offset
-        public const string TEXTURE_PATH_TILE_ICON_PREFIX = "ui/icon/076000/";
+        public const string TEXTURE_PATH_TILE_ICON_PREFIX = "ui/icon/076000/076000_hr1.tex";
+        public const string TEXTURE_PATH_TILE_ICON_PREFIX_NEW = "ui/icon/076000/076000.tex";
 
         public static bool IsValidTileTexturePath(string? texturePath) {
-            return texturePath?.StartsWith(TEXTURE_PATH_TILE_ICON_PREFIX) ?? false;
+            if (texturePath == null) return false;
+            return texturePath.StartsWith(TEXTURE_PATH_TILE_ICON_PREFIX) || texturePath.StartsWith(TEXTURE_PATH_TILE_ICON_PREFIX_NEW);
         }
 
         public static TileTexture GetTileTextureFromTexturePath(string texturePath) {
-            var textureTex = texturePath.Substring(15, 6);
+            // Extract the texture ID from the full path
+            var parts = texturePath.Split('/');
+            var lastPart = parts[parts.Length - 1];
+            var textureTex = lastPart.Split('_')[0];
+
             if (!TextureIdToTileTexture.ContainsKey(textureTex)) {
                 throw new ApplicationException("Unknown key: " + texturePath);
             }

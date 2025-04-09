@@ -16,17 +16,17 @@ namespace MahjongReader
 
         public unsafe TileTexture? GetTileTextureFromPlayerHandTile(IntPtr nodePtr) {
             var compNode = (AtkComponentNode*)nodePtr;
-            if (!compNode->AtkResNode.IsVisible) { // previous games have textures lingering in the pointer but not visible
+            if (!compNode->AtkResNode.IsVisible()) { // previous games have textures lingering in the pointer but not visible
                 return null;
             }
 
             // button is always first node here
             var buttonNode = compNode->Component->UldManager.NodeList[0];
-            if (!buttonNode->IsVisible) { // previous games have textures lingering in the pointer but not visible. also when your hand shifts the texture pointers linger
+            if (!buttonNode->IsVisible()) { // previous games have textures lingering in the pointer but not visible. also when your hand shifts the texture pointers linger
                 return null;
             }
             var tileImageNode = buttonNode->GetComponent()->UldManager.NodeList[4];
-            if (!tileImageNode->IsVisible) { // previous games have textures lingering in the pointer but not visible. also when your hand shifts the texture pointers linger
+            if (!tileImageNode->IsVisible()) { // previous games have textures lingering in the pointer but not visible. also when your hand shifts the texture pointers linger
                 return null;
             }
             var texString = GetImageTexturePath((AtkImageNode*)tileImageNode);
@@ -35,13 +35,13 @@ namespace MahjongReader
 
         public unsafe DiscardTile? GetTileTextureFromDiscardTile(IntPtr nodePtr) {
             var compNode = (AtkComponentNode*)nodePtr;
-            if (!compNode->AtkResNode.IsVisible) { // previous games have textures lingering in the pointer but not visible
+            if (!compNode->AtkResNode.IsVisible()) { // previous games have textures lingering in the pointer but not visible
                 return null;
             }
 
             // no button wrapper, fourth node is always the image
             var imageNode = compNode->Component->UldManager.NodeList[3];
-            if (!imageNode->IsVisible) { // previous games have textures lingering in the pointer but not visible
+            if (!imageNode->IsVisible()) { // previous games have textures lingering in the pointer but not visible
                 return null;
             }
             var texString = GetImageTexturePath((AtkImageNode*)imageNode);
@@ -72,7 +72,7 @@ namespace MahjongReader
 
         public unsafe List<TileTexture>? GetTileTexturesFromMeldGroup(IntPtr nodePtr) {
             var compNode = (AtkComponentNode*)nodePtr;
-            if (!compNode->AtkResNode.IsVisible) { // previous games have textures lingering in the pointer but not visible
+            if (!compNode->AtkResNode.IsVisible()) { // previous games have textures lingering in the pointer but not visible
                 return null;
             }
 
@@ -82,7 +82,7 @@ namespace MahjongReader
                 var childMeldComponentNode = compNode->Component->UldManager.NodeList[i];
                 // fourth node is the tile image
                 var tileImageNode = childMeldComponentNode->GetComponent()->UldManager.NodeList[3];
-                if (!tileImageNode->IsVisible) { // previous games have textures lingering in the pointer but not visible
+                if (!tileImageNode->IsVisible()) { // previous games have textures lingering in the pointer but not visible
                     continue;
                 }
                 var texString = GetImageTexturePath((AtkImageNode*)tileImageNode);
@@ -97,7 +97,7 @@ namespace MahjongReader
 
         public unsafe List<TileTexture>? GetTileTexturesFromPlayerMeldGroup(IntPtr nodePtr) {
             var compNode = (AtkComponentNode*)nodePtr;
-            if (!compNode->AtkResNode.IsVisible) {
+            if (!compNode->AtkResNode.IsVisible()) {
                 return null;
             }
             var meldTileTextures = new List<TileTexture>();
@@ -108,7 +108,7 @@ namespace MahjongReader
                 var buttonComponentNode = childMeldComponentNode->GetComponent()->UldManager.NodeList[0];
                 var buttonUldManager = buttonComponentNode->GetComponent()->UldManager;
                 if (buttonUldManager.NodeListCount < 4) { 
-                    PluginLog.Info($"Nested meld button with less than four children {buttonComponentNode->NodeID}");
+                    PluginLog.Info($"Nested meld button with less than four children {buttonComponentNode->NodeId}");
                     continue;
                 }
                 // if there is no Kan one of the four won't have the same memory shape. Also melded tiles are sideways / have different shape
@@ -116,7 +116,7 @@ namespace MahjongReader
 
                 // fifth node is the tile image
                 var tileImageNode = buttonComponentNode->GetComponent()->UldManager.NodeList[tileImageNodeIndex];
-                if (!tileImageNode->IsVisible) { // previous games have textures lingering in the pointer but not visible
+                if (!tileImageNode->IsVisible()) { // previous games have textures lingering in the pointer but not visible
                     continue;
                 }
                 var texString = GetImageTexturePath((AtkImageNode*)tileImageNode);
@@ -144,12 +144,12 @@ namespace MahjongReader
                     : Marshal.PtrToStringAnsi((IntPtr)texFileNameStdString->BufferPtr);
 
                 if (texturePath == null) {
-                    throw new ApplicationException("texturePath was null for nodeId: " + imageNode->AtkResNode.NodeID);
+                    throw new ApplicationException("texturePath was null for nodeId: " + imageNode->AtkResNode.NodeId);
                 }
 
                 return texturePath;
             } else {
-                // PluginLog.Info($"texture not loaded for node ID: {imageNode->AtkResNode.NodeID} ptr = ptr = {(long)imageNode:X}");
+                // PluginLog.Info($"texture not loaded for node ID: {imageNode->AtkResNode.NodeId} ptr = ptr = {(long)imageNode:X}");
                 return null;
             }
         }
@@ -158,7 +158,7 @@ namespace MahjongReader
             var nodeType = node->Type;
 
             if (log) {
-                PluginLog.Info($"nodeId: {node->NodeID} nodeType: {nodeType}");
+                PluginLog.Info($"nodeId: {node->NodeId} nodeType: {nodeType}");
             }
 
             if (nodeType == NodeType.Text) {

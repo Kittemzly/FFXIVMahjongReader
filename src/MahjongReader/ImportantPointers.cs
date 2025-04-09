@@ -108,7 +108,7 @@ namespace MahjongReader
             var node = (AtkResNode*)rawPtr;
             var nodeTypeUShort = (ushort)node->Type;
             if (nodeTypeUShort == (ushort)MahjongNodeType.PLAYER_HAND_TILE) {
-                var nodeId = node->NodeID;
+                var nodeId = node->NodeId;
                 if (PlayerHandNodeIds.MOST_RECENT_DRAWN == nodeId || PlayerHandNodeIds.PLAYER_HAND_TILE_NODE_IDS.Contains(nodeId)) {
                     playerHand.Add(rawPtr);
                 }

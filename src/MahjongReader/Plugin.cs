@@ -22,17 +22,16 @@ namespace MahjongReader
 {
     public sealed class Plugin : IDalamudPlugin
     {
-        public string Name => "Sample Plugin";
+        public string Name => "Mahjong Reader";
         private const string CommandName = "/mahjong";
 
+        private readonly IDalamudPluginInterface pluginInterface;
+        private readonly ICommandManager commandManager;
+        private readonly IGameGui gameGui;
+        private readonly IPluginLog pluginLog;
+        private readonly IAddonLifecycle addonLifecycle;
+        public readonly ITextureProvider TextureProvider;
 
-        [PluginService] public static IGameGui GameGui { get; private set; } = null!;
-        [PluginService] public static IPluginLog PluginLog { get; private set; } = null!;
-        [PluginService] internal static IAddonLifecycle AddonLifecycle { get; private set; } = null!;
-        [PluginService] internal static ITextureProvider TextureProvider { get; private set; } = null!;
-
-        private DalamudPluginInterface PluginInterface { get; init; }
-        private ICommandManager CommandManager { get; init; }
         public Configuration Configuration { get; init; }
         public WindowSystem WindowSystem = new("MahjongReader");
 
@@ -45,55 +44,64 @@ namespace MahjongReader
         private YakuDetector YakuDetector { get; init; }
 
         public Plugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] ICommandManager commandManager)
+            IDalamudPluginInterface pluginInterface,
+            ICommandManager commandManager,
+            IGameGui gameGui,
+            IPluginLog pluginLog,
+            IAddonLifecycle addonLifecycle,
+            ITextureProvider textureProvider)
         {
-            this.PluginInterface = pluginInterface;
-            this.CommandManager = commandManager;
+            this.pluginInterface = pluginInterface;
+            this.commandManager = commandManager;
+            this.gameGui = gameGui;
+            this.pluginLog = pluginLog;
+            this.addonLifecycle = addonLifecycle;
+            this.TextureProvider = textureProvider;
 
-            this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-            this.Configuration.Initialize(this.PluginInterface);
+            this.Configuration = this.pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+            this.Configuration.Initialize(this.pluginInterface);
 
             ConfigWindow = new ConfigWindow(this);
-            MainWindow = new MainWindow(this, PluginLog);
+            MainWindow = new MainWindow(this, pluginLog);
             
             WindowSystem.AddWindow(ConfigWindow);
             WindowSystem.AddWindow(MainWindow);
 
-            this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
+            this.commandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {
-                HelpMessage = "Tracks observed Mahjong tiles and available Yaku (TODO)"
+                HelpMessage = "Tracks observed Mahjong tiles and available Yaku"
             });
 
-            this.PluginInterface.UiBuilder.Draw += DrawUI;
-            this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+            this.pluginInterface.UiBuilder.Draw += DrawUI;
+            this.pluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+            this.pluginInterface.UiBuilder.OpenMainUi += () => MainWindow.IsOpen = true;
 
-            AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "Emj", OnAddonPostSetup);
-            ImportantPointers = new ImportantPointers(PluginLog);
-            NodeCrawlerUtils = new NodeCrawlerUtils(PluginLog);
+            addonLifecycle.RegisterListener(AddonEvent.PostSetup, "Emj", OnAddonPostSetup);
+            ImportantPointers = new ImportantPointers(pluginLog);
+            NodeCrawlerUtils = new NodeCrawlerUtils(pluginLog);
             YakuDetector = new YakuDetector();
         }
 
         public void Dispose()
         {
-            AddonLifecycle.UnregisterListener(OnAddonPostSetup);
-            AddonLifecycle.UnregisterListener(OnAddonPostRefresh);
-            this.WindowSystem.RemoveAllWindows();
+            addonLifecycle.UnregisterListener(OnAddonPostSetup);
+            addonLifecycle.UnregisterListener(OnAddonPostRefresh);
+            WindowSystem.RemoveAllWindows();
             
             ConfigWindow.Dispose();
             MainWindow.Dispose();
             
-            this.CommandManager.RemoveHandler(CommandName);
+            commandManager.RemoveHandler(CommandName);
         }
 
         private unsafe void OnAddonPostSetup(AddonEvent type, AddonArgs args) {
             var addonPtr = args.Addon;
             if (addonPtr == IntPtr.Zero) {
-                PluginLog.Info("Could not find Emj");
+                pluginLog.Info("Could not find Emj");
                 return;
             }
-            AddonLifecycle.RegisterListener(AddonEvent.PostRefresh, "Emj", OnAddonPostRefresh);
-            AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "Emj", OnAddonPreFinalize);
+            addonLifecycle.RegisterListener(AddonEvent.PostRefresh, "Emj", OnAddonPostRefresh);
+            addonLifecycle.RegisterListener(AddonEvent.PreFinalize, "Emj", OnAddonPreFinalize);
 
             MainWindow.IsOpen = true;
             var addon = (AtkUnitBase*)addonPtr;
@@ -109,12 +117,12 @@ namespace MahjongReader
         private void OnAddonPostRefresh(AddonEvent type, AddonArgs args) {
             var addonPtr = args.Addon;
             if (addonPtr == IntPtr.Zero) {
-                PluginLog.Info("Could not find Emj");
+                pluginLog.Info("Could not find Emj");
                 return;
             }
 
             if (WindowUpdateTask == null || WindowUpdateTask.IsCompleted || WindowUpdateTask.IsFaulted || WindowUpdateTask.IsCanceled) {
-                PluginLog.Info("Running window updater");
+                pluginLog.Info("Running window updater");
                 WindowUpdateTask = Task.Run(WindowUpdater);
             }
         }
@@ -126,7 +134,7 @@ namespace MahjongReader
 #endif
 
             var observedTiles = GetObservedTiles();
-            PluginLog.Info($"tiles count: {observedTiles.Count}");
+            pluginLog.Info($"tiles count: {observedTiles.Count}");
             var remainingMap = TileTextureUtilities.TileCountTracker.RemainingFromObserved(observedTiles);
             var suitCounts = new Dictionary<string, int>();
             foreach (var kvp in remainingMap) { // imagine testing
@@ -148,16 +156,16 @@ namespace MahjongReader
 #if DEBUG
     stopwatch.Stop();
     TimeSpan elapsedTime = stopwatch.Elapsed;
-    PluginLog.Info($"QQQQQQQ - Elapsed time: {elapsedTime.TotalMilliseconds} ms");
+    pluginLog.Info($"QQQQQQQ - Elapsed time: {elapsedTime.TotalMilliseconds} ms");
 #endif
         }
 
         private unsafe void OnCommand(string command, string args)
         {
-            var addonPtr = GameGui.GetAddonByName("Emj", 1);
+            var addonPtr = gameGui.GetAddonByName("Emj", 1);
 
             if (addonPtr == IntPtr.Zero) {
-                PluginLog.Info("Could not find Emj");
+                pluginLog.Info("Could not find Emj");
                 return;
             }
         }
